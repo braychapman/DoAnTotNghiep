@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Nhà cung cấp</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-truck"></i> Quản lý Nhà cung cấp
+        </a>
+        <div class="d-flex align-items-center text-white">
+            <i class="bi bi-person-circle me-2"></i>
+            <span>Nhân viên A</span>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar (giống như file trước) -->
+
+        <div class="col-md-3 col-lg-2 bg-light p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/banhang" class="nav-link text-dark">
+                        <i class="bi bi-cart me-2"></i> Bán hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sanpham" class="nav-link text-dark active">
+                        <i class="bi bi-box-seam me-2"></i> Sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/danhmuc" class="nav-link text-dark">
+                        <i class="bi bi-list-ul me-2"></i> Danh mục
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/nhacungcap" class="nav-link text-dark">
+                        <i class="bi bi-truck me-2"></i> Nhà cung cấp
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/hoadon" class="nav-link text-dark">
+                        <i class="bi bi-receipt me-2"></i> Hóa đơn
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/thongke" class="nav-link text-dark">
+                        <i class="bi bi-bar-chart me-2"></i> Thống kê
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/caidat" class="nav-link text-dark">
+                        <i class="bi bi-gear me-2"></i> Cài đặt
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3><i class="bi bi-truck me-2"></i> Danh sách nhà cung cấp</h3>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+                    <i class="bi bi-plus-lg me-2"></i> Thêm nhà cung cấp
+                </button>
+            </div>
+
+            <!-- Bảng danh sách nhà cung cấp -->
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên nhà cung cấp</th>
+                                <th>Người liên hệ</th>
+                                <th>Điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="supplier, index : ${suppliers}">
+                                <td th:text="${index.index + 1}"></td>
+                                <td th:text="${supplier.name}"></td>
+                                <td th:text="${supplier.contactPerson}"></td>
+                                <td th:text="${supplier.phone}"></td>
+                                <td th:text="${supplier.address}"></td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning me-1"
+                                            th:data-id="${supplier.supplierId}"
+                                            th:data-name="${supplier.name}"
+                                            th:data-contact="${supplier.contactPerson}"
+                                            th:data-phone="${supplier.phone}"
+                                            th:data-address="${supplier.address}"
+                                            onclick="openEditSupplierModal(this)">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </button>
+                                    <form th:action="@{'/nhacungcap/xoa/' + ${supplier.supplierId}}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này?')">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thêm nhà cung cấp -->
+<div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/nhacungcap/them}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSupplierModalLabel">Thêm nhà cung cấp mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="supplierName" class="form-label">Tên nhà cung cấp</label>
+                        <input type="text" class="form-control" id="supplierName" name="name" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactPerson" class="form-label">Người liên hệ</label>
+                        <input type="text" class="form-control" id="contactPerson" name="contactPerson" maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Điện thoại</label>
+                        <input type="text" class="form-control" id="phone" name="phone" maxlength="20">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal sửa nhà cung cấp -->
+<div class="modal fade" id="editSupplierModal" tabindex="-1" aria-labelledby="editSupplierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/nhacungcap/sua}" method="post">
+                <input type="hidden" id="editSupplierId" name="supplierId">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSupplierModalLabel">Sửa nhà cung cấp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editSupplierName" class="form-label">Tên nhà cung cấp</label>
+                        <input type="text" class="form-control" id="editSupplierName" name="name" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContactPerson" class="form-label">Người liên hệ</label>
+                        <input type="text" class="form-control" id="editContactPerson" name="contactPerson" maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPhone" class="form-label">Điện thoại</label>
+                        <input type="text" class="form-control" id="editPhone" name="phone" maxlength="20">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAddress" class="form-label">Địa chỉ</label>
+                        <textarea class="form-control" id="editAddress" name="address" rows="3" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function openEditSupplierModal(button) {
+        const supplierId = button.getAttribute('data-id');
+        const supplierName = button.getAttribute('data-name');
+        const contactPerson = button.getAttribute('data-contact');
+        const phone = button.getAttribute('data-phone');
+        const address = button.getAttribute('data-address');
+
+        document.getElementById('editSupplierId').value = supplierId;
+        document.getElementById('editSupplierName').value = supplierName;
+        document.getElementById('editContactPerson').value = contactPerson;
+        document.getElementById('editPhone').value = phone;
+        document.getElementById('editAddress').value = address;
+
+        const modal = new bootstrap.Modal(document.getElementById('editSupplierModal'));
+        modal.show();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt Hệ thống</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .setting-card {
+            transition: all 0.3s;
+            border-left: 4px solid #4e73df;
+        }
+        .setting-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-pills .nav-link.active {
+            background-color: #4e73df;
+            font-weight: bold;
+        }
+        .form-switch .form-check-input {
+            width: 3em;
+            height: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-gear"></i> Cài đặt Hệ thống
+            </a>
+            <div class="d-flex align-items-center text-white">
+                <i class="bi bi-person-circle me-2"></i>
+                <span>Quản trị viên</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 bg-light p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link text-dark">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="banhang.html" class="nav-link text-dark">
+                            <i class="bi bi-cart me-2"></i> Bán hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sanpham.html" class="nav-link text-dark">
+                            <i class="bi bi-box-seam me-2"></i> Sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hoadon.html" class="nav-link text-dark">
+                            <i class="bi bi-receipt me-2"></i> Hóa đơn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="thongke.html" class="nav-link text-dark">
+                            <i class="bi bi-bar-chart me-2"></i> Thống kê
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="caidat.html" class="nav-link text-dark active">
+                            <i class="bi bi-gear me-2"></i> Cài đặt
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <h3><i class="bi bi-gear me-2"></i> Cấu hình hệ thống</h3>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card mb-4">
+                            <div class="card-body p-0">
+                                <ul class="nav nav-pills flex-column" id="settingsTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="store-tab" data-bs-toggle="pill" href="#store" role="tab">
+                                            <i class="bi bi-shop me-2"></i> Cửa hàng
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="users-tab" data-bs-toggle="pill" href="#users" role="tab">
+                                            <i class="bi bi-people me-2"></i> Nhân viên
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="promotion-tab" data-bs-toggle="pill" href="#promotion" role="tab">
+                                            <i class="bi bi-percent me-2"></i> Khuyến mãi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="printer-tab" data-bs-toggle="pill" href="#printer" role="tab">
+                                            <i class="bi bi-printer me-2"></i> Máy in
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="backup-tab" data-bs-toggle="pill" href="#backup" role="tab">
+                                            <i class="bi bi-cloud-arrow-up me-2"></i> Sao lưu
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-9">
+                        <div class="tab-content" id="settingsTabContent">
+                            <!-- Store Settings -->
+                            <div class="tab-pane fade show active" id="store" role="tabpanel">
+                                <div class="card setting-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><i class="bi bi-shop me-2"></i>Thông tin cửa hàng</h5>
+                                        <form>
+                                            <div class="mb-3">
+                                                <label class="form-label">Tên cửa hàng</label>
+                                                <input type="text" class="form-control" value="Cửa hàng điện thoại ABC">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Địa chỉ</label>
+                                                <input type="text" class="form-control" value="123 Đường XYZ, Quận 1, TP.HCM">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Số điện thoại</label>
+                                                <input type="text" class="form-control" value="0381234567">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" value="contact@cuahangabc.com">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Logo cửa hàng</label>
+                                                <input type="file" class="form-control">
+                                                <small class="text-muted">Định dạng: JPG, PNG. Kích thước tối đa: 2MB</small>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- User Management -->
+                            <div class="tab-pane fade" id="users" role="tabpanel">
+                                <div class="card setting-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h5 class="card-title mb-0"><i class="bi bi-people me-2"></i>Quản lý nhân viên</h5>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                                <i class="bi bi-plus-lg me-2"></i>Thêm nhân viên
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tên nhân viên</th>
+                                                        <th>Vai trò</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Hành động</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" width="32" height="32">
+                                                                <span>Nguyễn Văn A</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>Quản trị viên</td>
+                                                        <td><span class="badge bg-success">Hoạt động</span></td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary me-1" title="Sửa">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" title="Xóa">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- More users... -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Promotion Settings -->
+                            <div class="tab-pane fade" id="promotion" role="tabpanel">
+                                <div class="card setting-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h5 class="card-title mb-0"><i class="bi bi-percent me-2"></i>Chính sách khuyến mãi</h5>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPromotionModal">
+                                                <i class="bi bi-plus-lg me-2"></i>Thêm khuyến mãi
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6><i class="bi bi-people-fill me-2"></i>Chính sách cho khách hàng</h6>
+                                            <div class="form-check form-switch mb-2">
+                                                <input class="form-check-input" type="checkbox" id="customerDiscountSwitch" checked>
+                                                <label class="form-check-label" for="customerDiscountSwitch">Áp dụng giảm giá cho khách VIP</label>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Mức giảm (%)</label>
+                                                    <input type="number" class="form-control" value="10">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label class="form-label">Điều kiện</label>
+                                                    <select class="form-select">
+                                                        <option>Khách mua từ 5 đơn</option>
+                                                        <option>Khách mua từ 10 triệu</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h6><i class="bi bi-calendar-event me-2"></i>Khuyến mãi theo sự kiện</h6>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="eventDiscountSwitch">
+                                                <label class="form-check-label" for="eventDiscountSwitch">Kích hoạt khuyến mãi đặc biệt</label>
+                                            </div>
+                                            
+                                            <div class="card bg-light p-3">
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Tên chương trình</label>
+                                                        <input type="text" class="form-control" placeholder="Ví dụ: Giảm giá Noel">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Từ ngày</label>
+                                                        <input type="date" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Đến ngày</label>
+                                                        <input type="date" class="form-control">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label">Mô tả</label>
+                                                        <textarea class="form-control" rows="2"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Printer Settings -->
+                            <div class="tab-pane fade" id="printer" role="tabpanel">
+                                <div class="card setting-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><i class="bi bi-printer me-2"></i>Cấu hình máy in</h5>
+                                        
+                                        <div class="row g-3">
+                                            <div

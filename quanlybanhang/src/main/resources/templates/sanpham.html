@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Sản phẩm</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .product-card {
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stock-low {
+            border-left: 4px solid #f6c23e;
+        }
+
+        .stock-out {
+            border-left: 4px solid #e74a3b;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-box-seam"></i> Quản lý Sản phẩm
+        </a>
+        <div class="d-flex align-items-center text-white">
+            <i class="bi bi-person-circle me-2"></i>
+            <span>Nhân viên A</span>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 bg-light p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="banhang" class="nav-link text-dark">
+                        <i class="bi bi-cart me-2"></i> Bán hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sanpham" class="nav-link text-dark active">
+                        <i class="bi bi-box-seam me-2"></i> Sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/danhmuc" class="nav-link text-dark">
+                        <i class="bi bi-list-ul me-2"></i> Danh mục
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/nhacungcap" class="nav-link text-dark">
+                        <i class="bi bi-truck me-2"></i> Nhà cung cấp
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="hoadon.html" class="nav-link text-dark">
+                        <i class="bi bi-receipt me-2"></i> Hóa đơn
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="thongke.html" class="nav-link text-dark">
+                        <i class="bi bi-bar-chart me-2"></i> Thống kê
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="caidat.html" class="nav-link text-dark">
+                        <i class="bi bi-gear me-2"></i> Cài đặt
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3><i class="bi bi-box-seam me-2"></i> Danh sách sản phẩm</h3>
+                <button class="btn btn-primary">
+                    <a href="/sanpham/them" style="color:white; text-decoration:none;">
+                        <i class="bi bi-plus-lg me-2"></i> Thêm sản phẩm
+                    </a>
+                </button>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" action="/sanpham">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Tìm kiếm</label>
+                                <div class="input-group">
+                                    <input type="text" name="keyword" class="form-control" placeholder="Tên/Mã sản phẩm" th:value="${param.keyword}">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Danh mục</label>
+                                <select name="category" class="form-select">
+                                    <option value="Tất cả">Tất cả</option>
+                                    <!-- Lặp qua danh sách danh mục từ cơ sở dữ liệu -->
+                                    <th:block th:each="category : ${categories}">
+                                        <option th:value="${category.name}" th:text="${category.name}"
+                                                th:selected="${category.name == param.category}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Tình trạng</label>
+                                <select name="status" class="form-select">
+                                    <option value="Tất cả">Tất cả</option>
+                                    <option value="Còn hàng" th:selected="${param.status == 'Còn hàng'}">Còn hàng</option>
+                                    <option value="Sắp hết" th:selected="${param.status == 'Sắp hết'}">Sắp hết</option>
+                                    <option value="Hết hàng" th:selected="${param.status == 'Hết hàng'}">Hết hàng</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-funnel"></i> Lọc
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Product List -->
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Mã vạch</th>
+                                <th>Giá</th>
+                                <th>Tồn kho</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product, index : ${products}">
+                                <td th:text="${index.index + 1}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.barcode}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.stock}"></td>
+                                <td>
+                <span th:class="${product.stock == 0 ? 'badge bg-danger' : (product.stock <= 5 ? 'badge bg-warning' : 'badge bg-success')}"
+                      th:text="${product.stock == 0 ? 'Hết hàng' : (product.stock <= 5 ? 'Sắp hết' : 'Còn hàng')}">
+                </span>
+                                </td>
+                                <td>
+                                    <a th:href="@{'/sanpham/sua/' + ${product.productId}}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                    <form th:action="@{'/sanpham/xoa/' + ${product.productId}}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
